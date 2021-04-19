@@ -19,7 +19,6 @@ model_path = 'experiments/start2/models/'
 resume_epochs = 99
 color = [0, 0, 255]
 
-
 ############ Create generartor ############
 class Generator(Dataset):
     def __init__(self, imgs, transform):
@@ -33,7 +32,6 @@ class Generator(Dataset):
         image = self.transform(Image.fromarray(cv2.cvtColor(self.imgs[idx], cv2.COLOR_BGR2RGB)))   
         return np.asarray(image)
 
-    
 ############ Initialize network and load weights ############
 net = HairMatteNet()
 net.to(device)
@@ -44,7 +42,6 @@ net.eval()
 transform = transforms.Compose([transforms.Resize((224,224)),
                                 transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
 
 ############ Main block ############
 start = time.time()
