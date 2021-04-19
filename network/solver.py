@@ -1,9 +1,10 @@
 import torch
+import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from network.model import *
-from network.losses import *
-from network.utils import *
+from network.model import HairMatteNet
+from network.losses import ImageGradientLoss, iou_metric, F1_metric, acc_metric
+from network.utils import denorm, dye_hair
 from network.generator import Generator
 from torchvision.utils import save_image
 from torch.optim.adadelta import Adadelta
@@ -12,6 +13,7 @@ import torchvision
 import time
 import datetime
 import os
+import random
 from PIL import Image
 
 
@@ -223,7 +225,7 @@ class HairSegmentation(object):
         self.restore_model(self.resume_epochs)
         self.net.eval()
         
-        iou = 0
+        metrics = {'iou': 0, 'f1_score': 0, 'acc': 0}
         for i, data in enumerate(self.valid_dataloader, 0):
             image = data[0].to(self.device)
             mask = data[2].to(self.device)
@@ -231,7 +233,9 @@ class HairSegmentation(object):
             with torch.no_grad():
                 pred = self.net(image)
                 
-            iou += iou_metric(pred, mask)
+            metrics['iou'] += iou_metric(pred, mask)
+            metrics['f1_score'] += F1_metric(pred, mask)
+            metrics['acc'] += acc_metric(pred, mask)
             
             if i == 0:
                 with torch.no_grad():
@@ -256,5 +260,11 @@ class HairSegmentation(object):
                     save_image(results_concat, results_path, nrow=5, padding=0)
                     print('Saved real and fake images into {}...'.format(results_path))
                     
-        iou /= i
-        print('Average iou = ', iou.item())
+        metrics['iou'] /= i
+        metrics['f1_score'] /= i
+        metrics['acc'] /= i
+        
+        log = "Average metrics, Epoch {}".format(self.resume_epochs)
+        for tag, value in metrics.items():
+            log += ", {}: {:.4f}".format(tag, value)
+        print(log)

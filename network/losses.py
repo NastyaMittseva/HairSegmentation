@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.nn.modules.loss import _Loss, _WeightedLoss
+from torch.nn.modules.loss import _WeightedLoss
 import torch.nn.functional as F
     
     
@@ -42,5 +42,27 @@ def iou_metric(pred, mask):
     mask = torch.squeeze(mask).long()
     Union = torch.where(pred > mask, pred, mask)
     Overlep = torch.mul(pred, mask)
-    loss = torch.div(torch.sum(Overlep).float(), torch.sum(Union).float())
-    return loss
+    metric = torch.div(torch.sum(Overlep).float(), torch.sum(Union).float())
+    return metric
+
+
+def acc_metric(pred, mask):
+    pred = torch.argmax(pred, 1).long()
+    mask = torch.squeeze(mask).long()
+    all_ones = torch.ones_like(mask)
+    all_zeros = torch.zeros_like(mask)
+    Right = torch.where(pred == mask, all_ones, all_zeros)
+    metric = torch.div(torch.sum(Right).float(), torch.sum(all_ones).float())
+    return metric
+
+
+def F1_metric(pred, mask):
+    pred = torch.argmax(pred, 1).long()
+    mask = torch.squeeze(mask).long()
+    all_ones = torch.ones_like(mask)
+    all_zeros = torch.zeros_like(mask)
+    Overlep = torch.mul(pred, mask)
+    precision = torch.div(torch.sum(Overlep).float(), torch.sum(pred).float())
+    recall = torch.div(torch.sum(Overlep).float(), torch.sum(mask).float())
+    F1score = torch.div(torch.mul(precision, recall), torch.add(precision, recall))
+    return F1score*2

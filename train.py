@@ -1,4 +1,4 @@
-from network.solver import *
+from network.solver import HairSegmentation
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"]= '0'
@@ -16,7 +16,7 @@ eps = 1e-7
 decay = 2e-5
 gradient_loss_weight = 0.125
         
-resume_epochs = 3
+resume_epochs = 0
 log_step = 100
 sample_step = 300
 num_epochs = 500
