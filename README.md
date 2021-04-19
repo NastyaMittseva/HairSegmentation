@@ -6,5 +6,5 @@
 <img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/99_epoch_test_results.jpg" width="50%" height="50%">
 
 ### Примеры инференса
-<img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/man.gif" width="100%" height="100%"> <img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/result_man.gif" width="40%" height="40%"> 
-<img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/woman.gif" width="100%" height="100%"> <img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/result_woman.gif" width="40%" height="40%"> 
+<img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/man.gif" width="40%" height="40%"> <img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/result_man.gif" width="40%" height="40%"> 
+<img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/woman.gif" width="40%" height="40%"> <img src="https://github.com/NastyaMittseva/HairSegmentation/blob/master/examples/result_woman.gif" width="40%" height="40%"> 
